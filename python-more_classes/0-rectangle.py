@@ -3,10 +3,9 @@
 documented module
 """
 
+
 class Rectangle:
     """
     documented class
     """
-
     pass
-
