@@ -1,42 +1,31 @@
 #!/usr/bin/python3
 """
-This module defines a Rectangle class.
-It includes a class method to create a Square instance.
+Module defining Rectangle class with Square factory and area comparison.
 """
 
 
 class Rectangle:
     """
-    A class that represents a rectangle.
-
-    Attributes:
-        number_of_instances (int): The number of active Rectangle instances.
-        print_symbol (any): The symbol used for string representation.
+    Rectangle class with instance tracking and customizable symbols.
     """
 
     number_of_instances = 0
     print_symbol = "#"
 
     def __init__(self, width=0, height=0):
-        """
-        Initializes a new Rectangle instance.
-
-        Args:
-            width (int): The width of the rectangle.
-            height (int): The height of the rectangle.
-        """
+        """Initializes instance and increments global count."""
         self.width = width
         self.height = height
         Rectangle.number_of_instances += 1
 
     @property
     def width(self):
-        """Retrieves the width of the rectangle."""
+        """Getter for width."""
         return self.__width
 
     @width.setter
     def width(self, value):
-        """Sets the width with integer and positive validation."""
+        """Setter for width with integer and value validation."""
         if not isinstance(value, int):
             raise TypeError("width must be an integer")
         if value < 0:
@@ -45,12 +34,12 @@ class Rectangle:
 
     @property
     def height(self):
-        """Retrieves the height of the rectangle."""
+        """Getter for height."""
         return self.__height
 
     @height.setter
     def height(self, value):
-        """Sets the height with integer and positive validation."""
+        """Setter for height with integer and value validation."""
         if not isinstance(value, int):
             raise TypeError("height must be an integer")
         if value < 0:
@@ -58,34 +47,34 @@ class Rectangle:
         self.__height = value
 
     def area(self):
-        """Returns the rectangle area."""
+        """Calculates area of rectangle."""
         return self.__width * self.__height
 
     def perimeter(self):
-        """Returns the rectangle perimeter, or 0 if a side is 0."""
+        """Calculates perimeter, returns 0 if any side is 0."""
         if self.__width == 0 or self.__height == 0:
             return 0
         return 2 * (self.__width + self.__height)
 
     def __str__(self):
-        """Returns a string representation using the print_symbol."""
+        """Returns string representation using print_symbol."""
         if self.__width == 0 or self.__height == 0:
             return ""
-        symbol = str(self.print_symbol)
-        return "\n".join([symbol * self.__width for _ in range(self.__height)])
+        return "\n".join([str(self.print_symbol) * self.__width
+                          for _ in range(self.__height)])
 
     def __repr__(self):
-        """Returns a string representation to recreate the instance."""
+        """Returns string for eval() reproduction."""
         return "Rectangle({}, {})".format(self.__width, self.__height)
 
     def __del__(self):
-        """Prints a message and decrements count upon deletion."""
+        """Decrements global count and prints deletion message."""
         Rectangle.number_of_instances -= 1
         print("Bye rectangle...")
 
     @staticmethod
     def bigger_or_equal(rect_1, rect_2):
-        """Compares two rectangles and returns the one with the larger area."""
+        """Compares two rectangles by area."""
         if not isinstance(rect_1, Rectangle):
             raise TypeError("rect_1 must be an instance of Rectangle")
         if not isinstance(rect_2, Rectangle):
@@ -96,12 +85,5 @@ class Rectangle:
 
     @classmethod
     def square(cls, size=0):
-        """
-        Returns a new Rectangle instance with width == height == size.
-
-        Args:
-            size (int): The size of the square's sides.
-
-        Returns:
-            Rectangle: A new Rectangle instance.
-        """
+        """Class method factory to create a square-sized Rectangle."""
+        return cls(size, size)
