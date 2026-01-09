@@ -1,33 +1,24 @@
-import pickle
+import csv
+import json
 
-class CustomObject:
-    """A custom Python class for serialization demonstration."""
+def convert_csv_to_json(csv_filename):
+    """
+    Reads a CSV file and writes its content to 'data.json'.
+    Returns True if successful, False otherwise.
+    """
+    try:
+        data_list = []
+        # Use DictReader to convert each row into a dictionary
+        with open(csv_filename, mode='r', encoding='utf-8') as csv_file:
+            reader = csv.DictReader(csv_file)
+            for row in reader:
+                data_list.append(row)
 
-    def __init__(self, name: str, age: int, is_student: bool):
-        """Initializes attributes: name (str), age (int), is_student (bool)."""
-        self.name = name
-        self.age = age
-        self.is_student = is_student
+        # Serialize the list of dictionaries to 'data.json'
+        with open('data.json', mode='w', encoding='utf-8') as json_file:
+            json.dump(data_list, json_file)
 
-    def display(self):
-        """Prints the object's attributes in the required format."""
-        print(f"Name: {self.name}")
-        print(f"Age: {self.age}")
-        print(f"Is Student: {self.is_student}")
-
-    def serialize(self, filename):
-        """Serializes the current instance to a file."""
-        try:
-            with open(filename, 'wb') as f:
-                pickle.dump(self, f)
-        except Exception:
-            return None
-
-    @classmethod
-    def deserialize(cls, filename):
-        """Deserializes a file back into a CustomObject instance."""
-        try:
-            with open(filename, 'rb') as f:
-                return pickle.load(f)
-        except (FileNotFoundError, pickle.UnpicklingError, EOFError, Exception):
-            return None
+        return True
+    except (FileNotFoundError, Exception):
+        # Return False if the file is not found or another error occurs
+        return False
