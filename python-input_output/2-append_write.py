@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """
-This module provides a function to write a string to a text file.
+This module provides a function to append a string to a text file.
 """
 
 
-def write_file(filename="", text=""):
+def append_write(filename="", text=""):
     """
-    Writes a string to a text file (UTF8) and returns the number
-    of characters written.
+    Appends a string at the end of a text file (UTF8) and returns
+    the number of characters added.
     """
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(filename, "a", encoding="utf-8") as f:
         return f.write(text)
